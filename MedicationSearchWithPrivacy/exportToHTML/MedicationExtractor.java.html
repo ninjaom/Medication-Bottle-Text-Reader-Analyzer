@@ -1,0 +1,115 @@
+<html>
+<head>
+<title>MedicationExtractor.java</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cf8e6d;}
+.s1 { color: #bcbec4;}
+.s2 { color: #bcbec4;}
+.s3 { color: #5f826b; font-style: italic;}
+.s4 { color: #67a37c; font-style: italic;}
+.s5 { color: #7a7e85;}
+.s6 { color: #6aab73;}
+</style>
+</head>
+<body bgcolor="#1e1f22">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+MedicationExtractor.java</font>
+</center></td></tr></table>
+<pre><span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">regex</span><span class="s2">.*;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">ArrayList</span><span class="s2">;</span>
+<span class="s0">import </span><span class="s1">java</span><span class="s2">.</span><span class="s1">util</span><span class="s2">.</span><span class="s1">List</span><span class="s2">;</span>
+
+<span class="s0">public class </span><span class="s1">MedicationExtractor </span><span class="s2">{</span>
+
+    <span class="s3">/**</span>
+     <span class="s3">* Extracts medication names with optional dosage information.</span>
+     <span class="s3">* </span><span class="s4">@param </span><span class="s3">text The input text containing prescription details.</span>
+     <span class="s3">* </span><span class="s4">@return </span><span class="s3">A list of extracted medication names with dosages.</span>
+     <span class="s3">*/</span>
+    <span class="s0">public static </span><span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">extractMedications</span><span class="s2">(</span><span class="s1">String text</span><span class="s2">) {</span>
+        <span class="s5">// Regex for identifying medication names with dosages</span>
+        <span class="s1">String medicationPattern </span><span class="s2">= </span><span class="s6">&quot;(?i)</span><span class="s0">\\</span><span class="s6">b([A-Za-z]+(?:-[A-Za-z]+)?)</span><span class="s0">\\</span><span class="s6">s+</span><span class="s0">\\</span><span class="s6">d+(?:mcg|mg|g|kg|ml|l|dl|IU|units|mg/ml|mcg/ml|g/ml|mg/kg|mcg/kg|mg/m2|tablet|capsule|drops|spray|puffs|suppository|ampoule|vial|mEq|mMol)?</span><span class="s0">\\</span><span class="s6">b&quot;</span><span class="s2">;</span>
+<span class="s5">//String medicationPattern = &quot;(?i)\\b([A-Za-z]+(?:\\s+[A-Za-z]+)*)\\s+\\d+(?:mcg|mg|g|kg|ml|l|dl|IU|units|mg/ml|mcg/ml|g/ml|mg/kg|mcg/kg|mg/m2|tablet|capsule|drops|spray|puffs|suppository|ampoule|vial|mEq|mMol)?\\b&quot;;</span>
+        <span class="s5">//String medicationPattern = &quot;(?i)\\b([A-Za-z]+(?:\\s+[A-Za-z]+)*)(?=\\s+\\d)(\\d+(?:\\.\\d+)?)\\s*(mcg|mg|g|kg|ml|l|dl|IU|units|mg/ml|mcg/ml|g/ml|mg/kg|mcg/kg|mg/m2|tablet|capsule|drops|spray|puffs|suppository|ampoule|vial|mEq|mMol)\\b&quot;;</span>
+
+
+        <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">medications </span><span class="s2">= </span><span class="s0">new </span><span class="s1">ArrayList</span><span class="s2">&lt;&gt;();</span>
+        <span class="s1">Pattern pattern </span><span class="s2">= </span><span class="s1">Pattern</span><span class="s2">.</span><span class="s1">compile</span><span class="s2">(</span><span class="s1">medicationPattern</span><span class="s2">);</span>
+        <span class="s1">Matcher matcher </span><span class="s2">= </span><span class="s1">pattern</span><span class="s2">.</span><span class="s1">matcher</span><span class="s2">(</span><span class="s1">text</span><span class="s2">);</span>
+
+        <span class="s0">while </span><span class="s2">(</span><span class="s1">matcher</span><span class="s2">.</span><span class="s1">find</span><span class="s2">()) {</span>
+            <span class="s1">medications</span><span class="s2">.</span><span class="s1">add</span><span class="s2">(</span><span class="s1">matcher</span><span class="s2">.</span><span class="s1">group</span><span class="s2">());</span>
+        <span class="s2">}</span>
+
+        <span class="s0">return </span><span class="s1">medications</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public static </span><span class="s1">String findMatchingLine</span><span class="s2">(</span><span class="s1">String multiLineString</span><span class="s2">, </span><span class="s1">String searchString</span><span class="s2">) {</span>
+        <span class="s5">// Split the multi-line string into an array of lines</span>
+        <span class="s1">String</span><span class="s2">[] </span><span class="s1">lines </span><span class="s2">= </span><span class="s1">multiLineString</span><span class="s2">.</span><span class="s1">split</span><span class="s2">(</span><span class="s6">&quot;</span><span class="s0">\n</span><span class="s6">&quot;</span><span class="s2">);</span>
+
+        <span class="s5">// Iterate over each line and check if the search string exists</span>
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">String line </span><span class="s2">: </span><span class="s1">lines</span><span class="s2">) {</span>
+            <span class="s0">if </span><span class="s2">(</span><span class="s1">line</span><span class="s2">.</span><span class="s1">contains</span><span class="s2">(</span><span class="s1">searchString</span><span class="s2">)) {</span>
+                <span class="s0">return </span><span class="s1">line</span><span class="s2">;  </span><span class="s5">// Return the first matching line</span>
+            <span class="s2">}</span>
+        <span class="s2">}</span>
+
+        <span class="s5">// Return null if no match is found</span>
+        <span class="s0">return null</span><span class="s2">;</span>
+    <span class="s2">}</span>
+
+    <span class="s0">public static void </span><span class="s1">main</span><span class="s2">(</span><span class="s1">String</span><span class="s2">[] </span><span class="s1">args</span><span class="s2">) {</span>
+        <span class="s5">// Input prescription text</span>
+        <span class="s1">String</span><span class="s2">[] </span><span class="s1">texts </span><span class="s2">= {</span>
+                <span class="s6">&quot;&quot;&quot; 
+            Jane Mary Doe II 
+            Amoxicillin 500mg ca 
+            MFG Sandoz 
+            Take 1 capsule by mouth 
+            twice daily 
+            for 10 days 
+            &quot;&quot;&quot;</span><span class="s2">,</span>
+
+                <span class="s6">&quot;&quot;&quot; 
+            Samuel Smith 
+            Vitamin D 1000 IU 
+            &quot;&quot;&quot;</span><span class="s2">,</span>
+
+                <span class="s6">&quot;&quot;&quot; 
+            Jane Demo Jr. 
+            Insulin 0.5 mL 
+            &quot;&quot;&quot;</span><span class="s2">,</span>
+
+                <span class="s6">&quot;&quot;&quot; 
+            Bugs B Bunny 
+            1234 Some Ln, SomeCity, TX, 70543 
+            MFG PERRIGO 
+            TRIAMCINOLONE 0.025% OIN 
+            APPLY TOPICALLY TO THE 
+            AFFECTED AREA TWICE 
+            DAILY FOR 14 days 
+            &quot;&quot;&quot;</span>
+        <span class="s2">};</span>
+
+        <span class="s0">for </span><span class="s2">(</span><span class="s1">String text </span><span class="s2">: </span><span class="s1">texts</span><span class="s2">) {</span>
+
+            <span class="s5">// Extract medications</span>
+            <span class="s1">List</span><span class="s2">&lt;</span><span class="s1">String</span><span class="s2">&gt; </span><span class="s1">medications </span><span class="s2">= </span><span class="s1">extractMedications</span><span class="s2">(</span><span class="s1">text</span><span class="s2">);</span>
+
+            <span class="s5">// Print the extracted medications</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s6">&quot;Possible Medication strings to send to drug database:&quot;</span><span class="s2">);</span>
+            <span class="s0">for </span><span class="s2">(</span><span class="s1">String medication </span><span class="s2">: </span><span class="s1">medications</span><span class="s2">) {</span>
+                <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s1">findMatchingLine</span><span class="s2">(</span><span class="s1">text</span><span class="s2">, </span><span class="s1">medication</span><span class="s2">));</span>
+            <span class="s2">}</span>
+            <span class="s1">System</span><span class="s2">.</span><span class="s1">out</span><span class="s2">.</span><span class="s1">println</span><span class="s2">(</span><span class="s6">&quot;---------------------</span><span class="s0">\n\n</span><span class="s6">&quot;</span><span class="s2">);</span>
+
+        <span class="s2">}</span>
+    <span class="s2">}</span>
+<span class="s2">}</span>
+</pre>
+</body>
+</html>
