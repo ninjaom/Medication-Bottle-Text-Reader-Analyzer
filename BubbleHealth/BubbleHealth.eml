@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<component jdk="openjdk-23" jdk_type="JavaSDK">
-	<contentEntry url="file://$MODULE_DIR$"/>
-	<levels>
-		<level name="tess4j-5.14.0" value="project"/>
-		<level name="opencv-4.10" value="project"/>
-		<level name="Headers" value="project"/>
-	</levels>
-</component>
